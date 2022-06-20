@@ -1,0 +1,61 @@
+package com.jerry.myappend.utils;
+
+import io.jsonwebtoken.*;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Data
+@Component
+@ConfigurationProperties(prefix = "jerry.jwt")
+public class JwtUtils {
+
+    private long expire;
+    private String secret;
+    private String header;
+
+    // 生成jwt
+    public String generateToken(String username) {
+
+        Date nowDate = new Date();
+        Date expireDate = new Date(nowDate.getTime() + 1000 * expire);
+
+        return Jwts.builder()
+                //
+                .setHeaderParam("typ", "JWT")
+                //主体
+                .setSubject(username)
+                //创建时间
+                .setIssuedAt(nowDate)
+                //过期时间
+                .setExpiration(expireDate)// 7天過期
+                //加密算法,secret:密钥
+                .signWith(SignatureAlgorithm.HS512, secret)
+                //合成
+                .compact();
+    }
+
+    // 解析jwt
+    public Claims getClaimByToken(String jwt) {
+        //加异常是为了后续代码能正常进行
+        try {
+            return Jwts.parser()
+                    //设置密钥
+                    .setSigningKey(secret)
+                    //进行解析
+                    .parseClaimsJws(jwt)
+                    //得到Body部分
+                    .getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // jwt是否过期
+    public boolean isTokenExpired(Claims claims) {
+        return claims.getExpiration().before(new Date());
+    }
+
+}
