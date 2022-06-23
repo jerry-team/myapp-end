@@ -20,13 +20,9 @@ public class User extends BaseEntity {
 
     private String password;
 
-    private Integer telephone;
+    private String telephone;
 
     private String nickname;
 
     private String icon;
-
-    private Integer addressId;
-
-
 }
