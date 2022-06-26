@@ -25,4 +25,8 @@ public class User extends BaseEntity {
     private String nickname;
 
     private String icon;
+
+    private String email;
+
+    private Integer state;
 }
