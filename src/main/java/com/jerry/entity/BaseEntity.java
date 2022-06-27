@@ -12,8 +12,6 @@ public class BaseEntity
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer state;
-
     private Date createTime;
 
     private Date updateTime;

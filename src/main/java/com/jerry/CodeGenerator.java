@@ -129,7 +129,7 @@ public class CodeGenerator {
         // 公共父类
         strategy.setSuperControllerClass("BaseController");
         // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id", "create_time", "update_time", "state");
+        strategy.setSuperEntityColumns("id", "create_time", "update_time");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
 //        strategy.setTablePrefix("sys_");//动态调整

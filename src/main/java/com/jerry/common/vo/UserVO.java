@@ -15,6 +15,8 @@ public class UserVO {
 
     private String icon;
 
+    private String email;
+
     private String token;
 
     public UserVO(User user){
@@ -23,5 +25,6 @@ public class UserVO {
         this.telephone = user.getTelephone();
         this.nickname = user.getNickname();
         this.icon = user.getIcon();
+        this.email =  user.getEmail();
     }
 }
