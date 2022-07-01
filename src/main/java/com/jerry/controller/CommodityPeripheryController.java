@@ -22,7 +22,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/commodity-periphery")
 public class CommodityPeripheryController extends BaseController {
-
     @PostMapping("/list")
     public Result list(){
         return Result.succ(commodityPeripheryService.list());
