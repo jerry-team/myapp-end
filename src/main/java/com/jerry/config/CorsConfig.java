@@ -17,7 +17,7 @@ public class CorsConfig extends WebMvcConfigurerAdapter
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addExposedHeader("Authorization");
+        corsConfiguration.addExposedHeader("token");
         return corsConfiguration;
     }
 

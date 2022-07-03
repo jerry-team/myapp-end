@@ -2,10 +2,7 @@ package com.jerry.controller;
 
 import com.jerry.mapper.CommodityMapper;
 import com.jerry.mapper.CommodityPeripheryMapper;
-import com.jerry.service.CategoryService;
-import com.jerry.service.CommodityPeripheryService;
-import com.jerry.service.CommodityService;
-import com.jerry.service.UserService;
+import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,12 @@ public class BaseController
     CommodityService commodityService;
 
     @Autowired
+    ShopCartService shopCartService;
+
+    @Autowired
+    ShopService shopService;
+
+    @Autowired
     CommodityPeripheryService commodityPeripheryService;
 
     @Autowired
@@ -31,6 +34,9 @@ public class BaseController
 
     @Autowired
     CommodityPeripheryMapper commodityPeripheryMapper;
+
+    @Autowired
+    HttpServletRequest request;
 
     @Autowired
     JwtUtils jwtUtils;

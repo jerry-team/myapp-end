@@ -9,6 +9,7 @@ import com.jerry.entity.Result;
 import com.jerry.entity.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +37,20 @@ public class CommodityController extends BaseController {
         return Result.succ(commodityList);
     }
 
+    @PostMapping("/listById")
+    public Result listById(@RequestBody Map<String, Object> params){
+        QueryWrapper<Commodity> qw = new QueryWrapper<Commodity>();
+        Commodity commodity = commodityService.getById((Serializable) params.get("commodityId"));
+//        Commodity commodity = commodityService.list(qw.eq("id",params.get("commodityId")));
+        return Result.succ(commodity);
+    }
+
     @PostMapping("/pageQuery")
     public Result pageQuery(@RequestBody Map<String, Object> params)
     {
+
+//        User user = (User)request.getAttribute("User");
+//        System.out.println("userTest:" + user.getPassword());
         Page<Commodity> page = new Page<>((Integer)params.get("start"), (Integer)params.get("pageSize"));
         if((Integer)params.get("categoryId") <= 1)
             return Result.succ(commodityMapper.selectPage(page,null).getRecords());
