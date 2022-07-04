@@ -22,7 +22,7 @@ public class Commodity extends BaseEntity {
 
     private Double price;
 
-    private String desription;
+    private String description;
 
     private Integer category;
 
@@ -33,6 +33,18 @@ public class Commodity extends BaseEntity {
 
     @TableField("videoUrl")
     private String videourl;
+
+    @TableField("vaccin")
+    private Integer vaccin;
+
+    @TableField("isPedigree")
+    private Integer isPedigree;
+
+    @TableField("isPest")
+    private Integer isPest;
+
+    @TableField("breed")
+    private String breed;
 
 
 }

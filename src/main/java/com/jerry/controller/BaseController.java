@@ -3,6 +3,7 @@ package com.jerry.controller;
 import com.jerry.mapper.CommodityMapper;
 import com.jerry.mapper.CommodityPeripheryMapper;
 import com.jerry.mapper.SearchMapper;
+
 import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
@@ -19,6 +20,12 @@ public class BaseController
     CommodityService commodityService;
 
     @Autowired
+    ShopCartService shopCartService;
+
+    @Autowired
+    ShopService shopService;
+
+    @Autowired
     CommodityPeripheryService commodityPeripheryService;
 
     @Autowired
@@ -31,7 +38,11 @@ public class BaseController
     CommodityPeripheryMapper commodityPeripheryMapper;
 
     @Autowired
+
     SearchService searchService;
+
+    HttpServletRequest request;
+
 
     @Autowired
     JwtUtils jwtUtils;
