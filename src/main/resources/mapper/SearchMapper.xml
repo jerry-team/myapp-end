@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jerry.mapper.SearchMapper">
+    <!--  **标签说明**
+         ①mapper的namespace需要匹配对应表的Dao层接口的全限定名称
+         (全限定名称：也被称为引用<reference>指代：包名+类名)
+         ②select表示查询语句，很简单，不多说，对应insert update...
+         ③id需要填入的是Dao接口中对应的方法名称
+         原理:mybatis会根据ID值来去Dao层接口找到对应要执行的sql语句的方法名称。
+         ④resultType，故名思意，就是查询结果的返回类型，填入的是类(这里就是domain的User类
+         )的全限定名称
+         ⑤这一整个叫做什么什么mapper.xml的文件就是sql的映射文件
+         必须要有的头部约束文件:
+         <?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    -->
+
+
+</mapper>

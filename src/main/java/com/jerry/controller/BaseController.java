@@ -2,10 +2,8 @@ package com.jerry.controller;
 
 import com.jerry.mapper.CommodityMapper;
 import com.jerry.mapper.CommodityPeripheryMapper;
-import com.jerry.service.CategoryService;
-import com.jerry.service.CommodityPeripheryService;
-import com.jerry.service.CommodityService;
-import com.jerry.service.UserService;
+import com.jerry.mapper.SearchMapper;
+import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,9 @@ public class BaseController
 
     @Autowired
     CommodityPeripheryMapper commodityPeripheryMapper;
+
+    @Autowired
+    SearchService searchService;
 
     @Autowired
     JwtUtils jwtUtils;
