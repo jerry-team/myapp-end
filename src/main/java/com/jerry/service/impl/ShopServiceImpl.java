@@ -4,7 +4,10 @@ import com.jerry.entity.Shop;
 import com.jerry.mapper.ShopMapper;
 import com.jerry.service.ShopService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements ShopService {
 
+    @Autowired
+    private ShopMapper shopMapper;
+    @Override
+    public List<Shop> getByShopCart() {
+        return shopMapper.getByShopCart();
+    }
 }

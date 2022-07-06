@@ -1,5 +1,6 @@
 package com.jerry.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,11 +16,14 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Shop extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
+    @TableField("shop_name")
     private String name;
 
+    @TableField("shop_address")
     private String shopAddress;
+
+    @TableField("description")
+    private String description;
 
 
 }

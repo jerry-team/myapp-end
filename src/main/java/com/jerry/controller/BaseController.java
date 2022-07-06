@@ -27,6 +27,9 @@ public class BaseController
     CommodityPeripheryService commodityPeripheryService;
 
     @Autowired
+    ShopCommodityService shopCommodityService;
+
+    @Autowired
     CategoryService categoryService;
 
     @Autowired

@@ -3,6 +3,8 @@ package com.jerry.service;
 import com.jerry.entity.Commodity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CommodityService extends IService<Commodity> {
 
+    List<Commodity> getByShopId(Integer shopId);
 }

@@ -46,5 +46,8 @@ public class Commodity extends BaseEntity {
     @TableField("breed")
     private String breed;
 
+    @TableField(exist = false)
+    private boolean isChecked = false;
+
 
 }
