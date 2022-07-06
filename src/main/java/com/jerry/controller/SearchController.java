@@ -1,6 +1,7 @@
 package com.jerry.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jerry.entity.Commodity;
 import com.jerry.entity.Result;
 import com.jerry.entity.Search;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,14 +93,20 @@ public class SearchController extends BaseController {
         Search search = new Search();
         search = searchService.getOne(searchQueryWrapper
                 .eq("uid", uid)
-                .eq("val", params.get("search_val")));
+                .eq("val", params.get("val")));
 
         if (search != null) { //搜索记录已经存在的情况
             search.setSnum(search.getSnum() + 1);
-            searchService.updateById(search); //搜索次数+1
+            QueryWrapper<Search> judge = new QueryWrapper<>();
+            judge.eq("uid",uid)
+                 .eq("val",params.get("val"));
+            searchService.update(search,judge); //搜索次数+1
             return Result.succ(search);
         } else { //搜索记录不存在的情况
-            search.setVal(params.get("search_val").toString());
+            search = new Search();
+//            System.out.println(params.get("val"));
+            search.setVal(params.get("val").toString());
+
             search.setSnum(1);
             search.setUid(uid);
             searchService.save(search);
@@ -147,5 +155,40 @@ public class SearchController extends BaseController {
         else
             return Result.succ("没有找到相关商品");
     }
+
+    @PostMapping("/pageQuery")
+    public Result pageQuery(@RequestBody Map<String, Object> params)
+    {
+        try {
+            jwtUtils.parseToken(params.get("token").toString());
+        } catch (ExpiredJwtException e) {
+            System.out.println("超时异常");
+            return Result.fail("token超时,请尝试重新登录！");
+        } catch (Exception e) {
+            return Result.fail(e.toString());
+        }
+        Page<Commodity> page = new Page<>((Integer)params.get("start"), (Integer)params.get("pageSize"));
+        QueryWrapper<Commodity> commodityQueryWrapper = new QueryWrapper<Commodity>();
+        List<Commodity> commodity = new ArrayList<>();
+
+        getSearchByVal(params);
+
+        commodity = commodityMapper.selectPage(page, commodityQueryWrapper
+                .like("name", params.get("val"))
+                .or()
+                .like("category", params.get("val"))
+                .or()
+                .like("description", params.get("val"))).getRecords();
+
+        for(Commodity entity:commodity){
+            entity.setShopName(commodityService.getShopName(entity.getId()));
+        }
+        if(commodity != null) {
+            return Result.succ(commodity);
+        }else
+            return Result.succ("没有找到相关商品");
+
+    }
+
 
 }

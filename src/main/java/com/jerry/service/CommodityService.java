@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Jerry
  * @since 2022-06-27
  */
-public interface CommodityService extends IService<Commodity> {
-
+public interface CommodityService extends IService<Commodity>{
+        String getShopName(Integer cid);
 }
