@@ -4,8 +4,11 @@ import com.jerry.entity.Commodity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.jerry.entity.Shop;
 import org.apache.ibatis.annotations.Mapper;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ import java.util.List;
  */
 @Mapper
 public interface CommodityMapper extends BaseMapper<Commodity> {
+    String getShopName(@Param("cid")Integer cid);
 
     @Select("select * from commodity c " +
             "where c.id in " +

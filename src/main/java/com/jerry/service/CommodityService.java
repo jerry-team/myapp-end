@@ -13,7 +13,10 @@ import java.util.List;
  * @author Jerry
  * @since 2022-06-27
  */
+
 public interface CommodityService extends IService<Commodity> {
 
     List<Commodity> getByShopId(Integer shopId);
+    String getShopName(Integer cid);
+
 }

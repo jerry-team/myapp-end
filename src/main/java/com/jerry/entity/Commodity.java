@@ -49,5 +49,9 @@ public class Commodity extends BaseEntity {
     @TableField(exist = false)
     private boolean isChecked = false;
 
+    @TableField(exist = false)
+    private String shopName;
+
+
 
 }
