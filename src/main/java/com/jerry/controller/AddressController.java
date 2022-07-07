@@ -29,7 +29,7 @@ public class AddressController extends BaseController{
         User user = (User)request.getAttribute("User");
         QueryWrapper<User> userWrapper = new QueryWrapper<User>();
         //获取用户id
-        User user1 = userService.getOne(userWrapper.select("id").eq("username",user.getUsername()));
+        User user1 = userService.getOne(userWrapper.select("id").eq("username","719622388"));
         Integer uid = user1.getId();
         List<Address> list = addressService.selectByUid(uid);
         System.out.println(Result.succ(list).toString());
@@ -45,7 +45,9 @@ public class AddressController extends BaseController{
         address.setAddress((String) params.get("address"));
         address.setDefaultAddress((int) params.get("defaultAddress"));
 
-        User user = (User)request.getAttribute("User");
+
+        User user = (User) request.getAttribute("User");
+        System.out.printf("User:" + user.getUsername());
         QueryWrapper<User> userWrapper = new QueryWrapper<User>();
         QueryWrapper<Address> addressQueryWrapper = new QueryWrapper<>();
         //获取用户id
