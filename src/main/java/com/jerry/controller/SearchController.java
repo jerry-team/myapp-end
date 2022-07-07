@@ -114,7 +114,7 @@ public class SearchController extends BaseController {
         }
     }
 
-    //删除所有搜索记录
+    //删除指定搜索记录
     @PostMapping("/deleteSearchByVal")
     public Result deleteSearchByVal(@RequestBody Map<String, Object> params) {
         QueryWrapper<User> userwrapper = new QueryWrapper<User>();
@@ -125,10 +125,11 @@ public class SearchController extends BaseController {
                 .eq("uid", uid)
                 .eq("val", params.get("val")));
         if (judge)
-            return Result.succ(judge);
+            return Result.succ("删除成功");
         else
             return Result.fail("删除失败，遇到未知错误！");
     }
+
 
     @PostMapping("/getCommodity")
     public Result getCommodity(@RequestBody Map<String, Object> params) {
@@ -186,8 +187,7 @@ public class SearchController extends BaseController {
         if(commodity != null) {
             return Result.succ(commodity);
         }else
-            return Result.succ("没有找到相关商品");
-
+            return Result.fail("没有找到相关商品");
     }
 
 
