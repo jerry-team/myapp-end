@@ -18,6 +18,11 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     public List<Address> selectByUid(Integer uid){
         return addressMapper.selectByUid(uid);
     }
+
+    @Override
+    public Address getByUserId(Integer uid) {
+        return addressMapper.getByUserId(uid);
+    }
     /*public Address insertAddress(Address address){
         String name = address.getName();
         Long telephone = address.getTelephone();

@@ -24,14 +24,28 @@ public class AddressController extends BaseController{
     private AddressService addressService1;
     @Autowired
     private UserAddressService userAddressService;
+//    @PostMapping("/list")
+//    public Result selectAddress(@RequestBody Map<String, Object> params){
+//        User user = (User)request.getAttribute("User");
+//        QueryWrapper<User> userWrapper = new QueryWrapper<User>();
+//        //获取用户id
+//        User user1 = userService.getOne(userWrapper.select("id").eq("username","719622388"));
+//        Integer uid = user1.getId();
+//        List<Address> list = addressService.selectByUid(uid);
+//        System.out.println(Result.succ(list).toString());
+//        return Result.succ(list);
+//    }
+
     @PostMapping("/list")
     public Result selectAddress(@RequestBody Map<String, Object> params){
-        User user = (User)request.getAttribute("User");
+        System.out.printf("token:"+params.get("token"));
+//        User user = (User)request.getAttribute("User");
         QueryWrapper<User> userWrapper = new QueryWrapper<User>();
         //获取用户id
-        User user1 = userService.getOne(userWrapper.select("id").eq("username","719622388"));
-        Integer uid = user1.getId();
-        List<Address> list = addressService.selectByUid(uid);
+//        User user1 = userService.getOne(userWrapper.select("id").eq("username",user.getUsername()));
+//        Integer uid = user1.getId();
+//        uid = (Integer)params.get("userId");
+        List<Address> list = addressService.selectByUid((Integer)params.get("userId"));
         System.out.println(Result.succ(list).toString());
         return Result.succ(list);
     }
@@ -46,12 +60,12 @@ public class AddressController extends BaseController{
         address.setDefaultAddress((int) params.get("defaultAddress"));
 
 
-        User user = (User) request.getAttribute("User");
-        System.out.printf("User:" + user.getUsername());
+//        User user = (User) request.getAttribute("User");
+//        System.out.printf("User:" + user.getUsername());
         QueryWrapper<User> userWrapper = new QueryWrapper<User>();
         QueryWrapper<Address> addressQueryWrapper = new QueryWrapper<>();
         //获取用户id
-        User user1 = userService.getOne(userWrapper.select("id").eq("username",user.getUsername()));
+//        User user1 = userService.getOne(userWrapper.select("id").eq("username",user.getUsername()));
         //插入新数据
         addressService1.save(address);
         //获取地址自增id
@@ -61,7 +75,7 @@ public class AddressController extends BaseController{
                 .eq("default_address",address.getDefaultAddress()));
         Integer Aid = address1.getId();
         UserAddress userAddress = new UserAddress();
-        userAddress.setUserId(user1.getId());
+        userAddress.setUserId((Integer) params.get("userId"));
         userAddress.setAddressId(Aid);
         //插入关联表
         userAddressService.save(userAddress);
@@ -73,6 +87,17 @@ public class AddressController extends BaseController{
         //System.out.println(Result.succ(null));
         return Result.succ(null);
     }
+
+    @PostMapping("/getByUserId")
+    public Result getAddress(@RequestBody Map<String, Object> params){
+//        QueryWrapper<User> userWrapper = new QueryWrapper<User>();
+        Address address = addressService.getByUserId((Integer)params.get("userId"));
+        return Result.succ(address);
+//        List<Address> list = addressService.selectByUid((Integer)params.get("userId"));
+//        System.out.println(Result.succ(list).toString());
+//        return Result.succ(list);
+    }
+
     private static class Address2{
         private Integer id;
         private String name;

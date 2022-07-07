@@ -20,4 +20,9 @@ public interface AddressMapper extends BaseMapper<Address> {
     Address insertAddress(@Param("address")Address address);*/
     /*@Select("SELECT id FROM address WHERE name = #{address.name} and telephone = #{address.telephone} and default_address = #{address.defaultAddress}")
     Integer selectAid(@Param("address") Address address);*/
+
+    @Select("select * from address a where a.id in " +
+            "(select address_id from user_address where user_id = #{uid}) and " +
+            "a.default_address = 1")
+    Address getByUserId(Integer uid);
 }
