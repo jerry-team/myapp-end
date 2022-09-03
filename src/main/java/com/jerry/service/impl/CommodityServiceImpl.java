@@ -31,4 +31,14 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     public List<Commodity> getByShopId(Integer shopId) {
         return commodityMapper.getByShopId(shopId);
     }
+
+    @Override
+    public String getCategoryInfo(Integer categoryId){
+            return commodityMapper.getCategoryInfo(categoryId);
+    }
+
+    @Override
+    public Integer getCommodityRow(){
+            return commodityMapper.getCommodityRow();
+    }
 }

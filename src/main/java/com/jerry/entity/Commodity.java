@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 /**
  * <p>
  * 
@@ -28,7 +30,6 @@ public class Commodity extends BaseEntity {
 
     private Integer number;
 
-    @TableField("imgUrl")
     private String imgurl;
 
     @TableField("videoUrl")
@@ -51,6 +52,9 @@ public class Commodity extends BaseEntity {
 
     @TableField(exist = false)
     private String shopName;
+
+    @TableField(exist = false)
+    private String categoryName;
 
 
 

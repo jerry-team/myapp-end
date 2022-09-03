@@ -191,6 +191,19 @@ public class UserController extends BaseController{
 //        return Result.succ(user);
 //    }
 
+//    @PostMapping("/backendlogin")
+//    public Result login(@RequestBody Map<String, Object> params){
+//        QueryWrapper<User> userwrapper = new QueryWrapper<User>();
+//        User user = userService.getOne(userwrapper.eq("username",params.get("username")));
+//        if(user == null || !user.getPassword().equals(params.get("password")))
+//        {
+//            return Result.fail("用户名或密码错误");
+//        }
+//        UserVO userVO = new UserVO(user);
+//        userVO.setToken(jwtUtils.generateToken(user.getUsername(),user.getState()));
+//        return Result.succ(userVO);
+//    }
+
 
 
 }

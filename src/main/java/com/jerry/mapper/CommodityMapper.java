@@ -30,4 +30,8 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
             "and c.id in " +
             "(select commodity_id from shop_cart)")
     List<Commodity> getByShopId(Integer shopId);
+
+    String getCategoryInfo(Integer categoryId);
+
+    Integer getCommodityRow();
 }

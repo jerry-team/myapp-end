@@ -12,7 +12,7 @@ public class BaseEntity
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date updateTime;
+    private String updateTime;
 }

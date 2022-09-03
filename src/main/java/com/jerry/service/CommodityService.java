@@ -19,4 +19,8 @@ public interface CommodityService extends IService<Commodity> {
     List<Commodity> getByShopId(Integer shopId);
     String getShopName(Integer cid);
 
+    String getCategoryInfo(Integer categoryId);
+
+    Integer getCommodityRow();
+
 }

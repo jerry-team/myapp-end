@@ -10,4 +10,14 @@
               sc.shop_id = s.id
     </select>
 
+    <select id="getCategoryInfo" resultType="string" >
+        select a.name
+        from category a
+        where a.id = #{categoryId}
+    </select>
+
+    <select id="getCommodityRow" resultType="int">
+        select COUNT(*) from commodity
+    </select>
+
 </mapper>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jerry.common.vo.UserVO;
 import com.jerry.entity.Commodity;
+import com.jerry.entity.PageInfo;
 import com.jerry.entity.Result;
 import com.jerry.entity.User;
 import org.springframework.web.bind.annotation.*;
@@ -60,11 +61,39 @@ public class CommodityController extends BaseController {
             return Result.succ(commodityMapper.selectPage(page,wrapper.eq("category",(Integer)params.get("categoryId")-1)).getRecords());
         }
     }
-//
-//    @PostMapping("/list")
-//    public Result list(@RequestBody Map<String, Object> params){
-//
-//        return Result.succ("");
-//    }
+
+    @CrossOrigin
+    @PostMapping("/backendPageQuery")
+    public Result getInfo(@RequestBody PageInfo req) {
+        {
+            Page<Commodity> page = new Page<>(req.get_currentPage(), req.getPageSize());
+
+            List<Commodity> commodityList = commodityMapper.selectPage(page, null).getRecords();
+
+            for (Commodity item:commodityList
+                 ) {
+                item.setCategoryName(commodityMapper.getCategoryInfo(item.getCategory()));
+            }
+            return Result.succ(commodityList);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping("/backendGetRow")
+    public Result getRow(){
+        return Result.succ(commodityMapper.getCommodityRow());
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/backendDelete/{id}")
+    public Result deleteCommodity(@PathVariable("id") Integer id){
+        QueryWrapper<Commodity> cm = new QueryWrapper<>();
+        cm.eq("id",id);
+        if(commodityMapper.delete(cm) == 1)
+            return Result.succ("删除成功");
+        else
+            return Result.fail("删除失败，并发错误");
+    }
+
 
 }
