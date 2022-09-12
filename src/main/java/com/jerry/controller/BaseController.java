@@ -4,6 +4,7 @@ import com.jerry.mapper.CommodityMapper;
 import com.jerry.mapper.CommodityPeripheryMapper;
 import com.jerry.mapper.SearchMapper;
 
+import com.jerry.mapper.UserMapper;
 import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
@@ -49,4 +50,7 @@ public class BaseController
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    UserMapper userMapper;
 }

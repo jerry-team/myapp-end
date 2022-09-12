@@ -29,4 +29,6 @@ public class User extends BaseEntity {
     private String email;
 
     private Integer state;
+
+    private Double money;
 }

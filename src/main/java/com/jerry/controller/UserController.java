@@ -2,15 +2,13 @@ package com.jerry.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jerry.common.vo.UserVO;
-import com.jerry.entity.Register;
-import com.jerry.entity.Result;
-import com.jerry.entity.User;
+import com.jerry.entity.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +58,7 @@ public class UserController extends BaseController{
             user1.setTelephone(params.get("rphone").toString());
             user1.setEmail(params.get("remail").toString());
             user1.setState(0);
+            user1.setMoney(100000.00);
             userService.save(user1);
             return Result.succ(user1);
         }else{
@@ -203,7 +202,35 @@ public class UserController extends BaseController{
 //        userVO.setToken(jwtUtils.generateToken(user.getUsername(),user.getState()));
 //        return Result.succ(userVO);
 //    }
+    @PostMapping("/UserGetRow")
+    public Result getRow(){
 
+        return Result.succ(userMapper.getUserRow());
+}
+    @PostMapping("/UserPageQuery")
+    public Result getInfo(@RequestBody PageInfo req) {
+        {
+            Page<User> page = new Page<>(req.get_currentPage(), req.getPageSize());
+
+            List<User> usersList = userMapper.selectPage(page, null).getRecords();
+            //System.out.println(usersList);
+            return Result.succ(usersList);
+        }
+    }
+    @DeleteMapping("/UserDelete/{id}")
+    public Result deleteUser(@PathVariable("id") Integer id){
+        QueryWrapper<User> ur = new QueryWrapper<>();
+        ur.eq("id",id);
+        if(userMapper.delete(ur) == 1)
+            return Result.succ("删除成功");
+        else
+            return Result.fail("删除失败，并发错误");
+    }
+    @PostMapping("/update/{id}")
+    public Result updateUser(@RequestBody PageInfo req){
+        System.out.println(req);
+        return  Result.fail("test");
+    }
 
 
 }
