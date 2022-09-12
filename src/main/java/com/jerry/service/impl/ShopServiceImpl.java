@@ -26,4 +26,9 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
     public List<Shop> getByShopCart() {
         return shopMapper.getByShopCart();
     }
+
+    @Override
+    public List<Shop> getAllShopName(){
+        return shopMapper.getAllShopName();
+    }
 }

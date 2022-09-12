@@ -22,4 +22,6 @@ public interface ShopMapper extends BaseMapper<Shop> {
             "where s.id in " +
             "(select sc.shop_id from shop_cart sct,shop_commodity sc where sct.commodity_id = sc.commodity_id)")
     List<Shop> getByShopCart();
+
+    List<Shop> getAllShopName();
 }

@@ -4,6 +4,7 @@ import com.jerry.entity.Commodity;
 import com.jerry.mapper.CommodityMapper;
 import com.jerry.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,15 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Override
     public Integer getCommodityRow(){
             return commodityMapper.getCommodityRow();
+    }
+
+    @Override
+    public List<Commodity> getCommodityByShopId(Integer sid){
+            return commodityMapper.getCommodityByShopId(sid);
+    }
+
+    @Override
+    public List<Commodity> getAllCommodity(){
+            return commodityMapper.getAllCommodity();
     }
 }
