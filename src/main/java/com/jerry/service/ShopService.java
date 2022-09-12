@@ -16,4 +16,5 @@ import java.util.List;
 public interface ShopService extends IService<Shop> {
 
     List<Shop> getByShopCart();
+    List<Shop> getAllShopName();
 }

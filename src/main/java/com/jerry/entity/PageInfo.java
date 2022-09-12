@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PageInfo {
     private Integer _currentPage;
     private Integer pageSize;
+    private Integer ShopId;
 }

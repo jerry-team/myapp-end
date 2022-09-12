@@ -29,7 +29,7 @@ public class ShopCartVO {
 
     public ShopCartVO(Shop shop) {
         this.id = shop.getId();
-        this.name = shop.getName();
+        this.name = shop.getShopName();
         this.shopAddress = shop.getShopAddress();
         this.description = shop.getDescription();
 //        this.createTime = shop.getCreateTime();

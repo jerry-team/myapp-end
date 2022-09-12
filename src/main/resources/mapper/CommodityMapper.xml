@@ -20,4 +20,17 @@
         select COUNT(*) from commodity
     </select>
 
+    <select id="getCommodityByShopId" resultType="com.jerry.entity.Commodity">
+        select c.*,s.shop_name
+        from commodity c,shop s,shop_commodity sc
+        where s.id = #{sid} and
+              s.id = sc.shop_id and
+              sc.commodity_id = c.id
+    </select>
+
+    <select id="getCommodityAll" resultType="com.jerry.entity.Commodity">
+        select *
+        from commodity
+    </select>
+
 </mapper>

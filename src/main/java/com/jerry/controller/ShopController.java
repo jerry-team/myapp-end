@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +28,6 @@ import java.util.Map;
 @RequestMapping("/shop")
 public class ShopController extends BaseController {
 
-
     @PostMapping("/getByCommodityId")
     public Result getByCommodityId(@RequestBody Map<String, Object> params){
         QueryWrapper<ShopCommodity> qw = new QueryWrapper<ShopCommodity>();
@@ -35,5 +36,13 @@ public class ShopController extends BaseController {
         QueryWrapper<Shop> qws = new QueryWrapper<Shop>();
         Shop shop = shopService.getOne(qws.eq("id",shopCommodity.getShopId()));
         return Result.succ(shop);
+    }
+
+    @PostMapping("/getAllShopName")
+    public Result getAllShopName(){
+
+        List<Shop> shopArrayList = shopMapper.getAllShopName();
+
+        return Result.succ(shopArrayList);
     }
 }
