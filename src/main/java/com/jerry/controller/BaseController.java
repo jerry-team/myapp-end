@@ -4,11 +4,9 @@ import com.jerry.mapper.CommodityMapper;
 import com.jerry.mapper.CommodityPeripheryMapper;
 import com.jerry.mapper.SearchMapper;
 
-<<<<<<< HEAD
+
 import com.jerry.mapper.UserMapper;
-=======
 import com.jerry.mapper.ShopMapper;
->>>>>>> cc5c620633cf8fb4f2616fab8cb05af60d2dbf06
 import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
