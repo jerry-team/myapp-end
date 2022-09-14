@@ -48,9 +48,9 @@ public class BaseController
     SearchService searchService;
 
     @Autowired
-
     ShopMapper shopMapper;
 
+    @Autowired
     HttpServletRequest request;
 
 
