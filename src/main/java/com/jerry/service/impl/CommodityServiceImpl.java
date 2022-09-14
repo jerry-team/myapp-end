@@ -20,13 +20,13 @@ import java.util.List;
  */
 @Service
 public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity> implements CommodityService {
-        @Autowired
-        CommodityMapper commodityMapper;
+    @Autowired
+    CommodityMapper commodityMapper;
 
-        @Override
-        public String getShopName(Integer cid){
-            return commodityMapper.getShopName(cid);
-        }
+    @Override
+    public String getShopName(Integer cid){
+        return commodityMapper.getShopName(cid);
+    }
 
     @Override
     public List<Commodity> getByShopId(Integer shopId) {

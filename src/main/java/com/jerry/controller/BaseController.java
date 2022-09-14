@@ -1,12 +1,13 @@
 package com.jerry.controller;
 
-import com.jerry.mapper.CommodityMapper;
-import com.jerry.mapper.CommodityPeripheryMapper;
-import com.jerry.mapper.SearchMapper;
+import com.jerry.mapper.*;
 
+<<<<<<< HEAD
+=======
 
 import com.jerry.mapper.UserMapper;
 import com.jerry.mapper.ShopMapper;
+>>>>>>> 66c5570d649bd7c7afec9422351363919bd2afc4
 import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
@@ -44,8 +45,8 @@ public class BaseController
     CommodityPeripheryMapper commodityPeripheryMapper;
 
     @Autowired
-
     SearchService searchService;
+
 
     @Autowired
     ShopMapper shopMapper;
@@ -58,5 +59,11 @@ public class BaseController
     JwtUtils jwtUtils;
 
     @Autowired
+<<<<<<< HEAD
+    BackendOrderMapper backendOrderMapper;
+    @Autowired
+    BackendOrderService backendOrderService;
+=======
     UserMapper userMapper;
+>>>>>>> 66c5570d649bd7c7afec9422351363919bd2afc4
 }
