@@ -15,9 +15,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Shop extends BaseEntity {
+    @TableField("id")
+    private Integer id;
 
     @TableField("shop_name")
-    private String name;
+    private String shopName;
 
     @TableField("shop_address")
     private String shopAddress;

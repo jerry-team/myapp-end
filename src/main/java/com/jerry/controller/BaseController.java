@@ -1,9 +1,9 @@
 package com.jerry.controller;
 
-import com.jerry.mapper.CommodityMapper;
-import com.jerry.mapper.CommodityPeripheryMapper;
-import com.jerry.mapper.SearchMapper;
+import com.jerry.mapper.*;
 
+import com.jerry.mapper.UserMapper;
+import com.jerry.mapper.ShopMapper;
 import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
@@ -53,8 +53,19 @@ public class BaseController
     CommentService commentService;
 
     @Autowired
+    ShopMapper shopMapper;
+
+    @Autowired
     HttpServletRequest request;
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    BackendOrderMapper backendOrderMapper;
+    @Autowired
+    BackendOrderService backendOrderService;
+    @Autowired
+    UserMapper userMapper;
+
 }

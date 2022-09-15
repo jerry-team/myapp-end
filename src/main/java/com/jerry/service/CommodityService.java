@@ -2,6 +2,7 @@ package com.jerry.service;
 
 import com.jerry.entity.Commodity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,5 +21,12 @@ public interface CommodityService extends IService<Commodity> {
     String getShopName(Integer cid);
 
     List<Commodity> getRecommend(Integer userId);
+    String getCategoryInfo(Integer categoryId);
+
+    Integer getCommodityRow();
+
+    List<Commodity> getCommodityByShopId(Integer sid);
+
+    List<Commodity> getAllCommodity();
 
 }

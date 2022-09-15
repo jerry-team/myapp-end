@@ -24,6 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object o) throws Exception{
         String token = req.getHeader("token");
+//        String token_backend = req.getHeader("")
         if(token == null)
         {
             throw new Exception("请登录！");

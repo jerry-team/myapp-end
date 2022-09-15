@@ -7,6 +7,7 @@ import com.jerry.mapper.CommodityMapper;
 import com.jerry.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerry.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,7 @@ import java.util.List;
  */
 @Service
 public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity> implements CommodityService {
-        @Autowired
-        CommodityMapper commodityMapper;
+
 //        @Autowired
 //        UserService userService;
 //        @Autowired
@@ -31,11 +31,13 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 //        @Autowired
 //        CommentMapper commentMapper;
 
+    @Autowired
+    CommodityMapper commodityMapper;
 
-        @Override
-        public String getShopName(Integer cid){
-            return commodityMapper.getShopName(cid);
-        }
+    @Override
+    public String getShopName(Integer cid){
+        return commodityMapper.getShopName(cid);
+    }
 
     @Override
     public List<Commodity> getRecommend(Integer userId) {
@@ -51,5 +53,25 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Override
     public List<Commodity> getByShopId(Integer shopId) {
         return commodityMapper.getByShopId(shopId);
+    }
+
+    @Override
+    public String getCategoryInfo(Integer categoryId){
+            return commodityMapper.getCategoryInfo(categoryId);
+    }
+
+    @Override
+    public Integer getCommodityRow(){
+            return commodityMapper.getCommodityRow();
+    }
+
+    @Override
+    public List<Commodity> getCommodityByShopId(Integer sid){
+            return commodityMapper.getCommodityByShopId(sid);
+    }
+
+    @Override
+    public List<Commodity> getAllCommodity(){
+            return commodityMapper.getAllCommodity();
     }
 }
