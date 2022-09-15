@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jerry.entity.BackendOrder;
-import com.jerry.entity.Commodity;
-import com.jerry.entity.PageInfo;
-import com.jerry.entity.Result;
+import com.jerry.entity.*;
+import com.jerry.mapper.UserMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +56,32 @@ public class BackendOrderController extends BaseController{
             BackendOrder backendOrder = backendOrderMapper.selectOne(bo.eq("id",param.get("id")));
             backendOrder.setStatus(-1);
 
+            /* 将库存还原 */
+            QueryWrapper<OrderItem> oi = new QueryWrapper<>();
+            oi.eq("order_id",param.get("id"));
+            List<OrderItem> orderItemList = orderItemService.list(oi);
+
+            for (OrderItem item:orderItemList
+                 ) {
+                Integer returnNum = item.getNum();
+                Integer commodityId = item.getCommodityId();
+                QueryWrapper<Commodity> cd = new QueryWrapper<>();
+                cd.eq("id",commodityId);
+                Commodity commodity = commodityMapper.selectOne(cd);
+                commodity.setNumber(commodity.getNumber()+returnNum);
+                commodityMapper.update(commodity,cd);
+            }
+
+            /* 退款 */
+            if(param.get("judgePay").toString().equals("true")){
+                QueryWrapper<User> userQ = new QueryWrapper<>();
+                userQ.eq("id",param.get("userid"));
+                User user = userMapper.selectOne(userQ);
+                user.setMoney(user.getMoney()+Double.parseDouble(param.get("totalAmount").toString()));
+                userMapper.update(user,userQ);
+            }
+
+
 //            commodityMapper.selectOne()
             return Result.succ(backendOrderMapper.update(backendOrder,bo));
         }else{
@@ -69,10 +93,36 @@ public class BackendOrderController extends BaseController{
     public Result directCB(@RequestBody Map<String,Object> param){
         Integer judge = Integer.parseInt(param.get("status").toString());
         if(judge == 3){
+
             QueryWrapper<BackendOrder> bo = new QueryWrapper<>();
             BackendOrder backendOrder = backendOrderMapper.selectOne(bo.eq("id",param.get("id")));
             backendOrder.setStatus(-4);
             backendOrder.setReason(param.get("reason").toString());
+
+            /* 将库存还原 */
+            QueryWrapper<OrderItem> oi = new QueryWrapper<>();
+            oi.eq("order_id",param.get("id"));
+            List<OrderItem> orderItemList = orderItemService.list(oi);
+
+            for (OrderItem item:orderItemList
+            ) {
+                Integer returnNum = item.getNum();
+                Integer commodityId = item.getCommodityId();
+                QueryWrapper<Commodity> cd = new QueryWrapper<>();
+                cd.eq("id",commodityId);
+                Commodity commodity = commodityMapper.selectOne(cd);
+                commodity.setNumber(commodity.getNumber()+returnNum);
+                commodityMapper.update(commodity,cd);
+            }
+
+            /* 退款 */
+            QueryWrapper<User> userQ = new QueryWrapper<>();
+            userQ.eq("id",param.get("userid"));
+            User user = userMapper.selectOne(userQ);
+            user.setMoney(user.getMoney()+Double.parseDouble(param.get("totalAmount").toString()));
+            userMapper.update(user,userQ);
+
+
             return Result.succ(backendOrderMapper.update(backendOrder,bo));
         }
         return Result.fail("更新错误！状态码有误");
@@ -82,10 +132,39 @@ public class BackendOrderController extends BaseController{
     public Result examineOrder(@RequestBody Map<String,Object> param){
         Integer judge = Integer.parseInt(param.get("status").toString());
         if(judge == -2 ){
-            QueryWrapper<BackendOrder> bo = new QueryWrapper<>();
-            BackendOrder backendOrder = backendOrderMapper.selectOne(bo.eq("id",param.get("id")));
-            backendOrder.setStatus(-3);
-            return Result.succ(backendOrderMapper.update(backendOrder,bo));
+            if(param.get("opinion").toString().equals("true")) {
+                QueryWrapper<BackendOrder> bo = new QueryWrapper<>();
+                BackendOrder backendOrder = backendOrderMapper.selectOne(bo.eq("id", param.get("id")));
+                backendOrder.setStatus(-3);
+
+                /* 将库存还原 */
+                QueryWrapper<OrderItem> oi = new QueryWrapper<>();
+                oi.eq("order_id",param.get("id"));
+                List<OrderItem> orderItemList = orderItemService.list(oi);
+                for (OrderItem item:orderItemList
+                ) {
+                    Integer returnNum = item.getNum();
+                    Integer commodityId = item.getCommodityId();
+                    QueryWrapper<Commodity> cd = new QueryWrapper<>();
+                    cd.eq("id",commodityId);
+                    Commodity commodity = commodityMapper.selectOne(cd);
+                    commodity.setNumber(commodity.getNumber()+returnNum);
+                    commodityMapper.update(commodity,cd);
+                }
+                /* 退款 */
+                QueryWrapper<User> userQ = new QueryWrapper<>();
+                userQ.eq("id",param.get("userid"));
+                User user = userMapper.selectOne(userQ);
+                user.setMoney(user.getMoney()+Double.parseDouble(param.get("totalAmount").toString()));
+                userMapper.update(user,userQ);
+                return Result.succ(backendOrderMapper.update(backendOrder, bo));
+            }else if(param.get("opinion").toString().equals("false")){
+                QueryWrapper<BackendOrder> bo = new QueryWrapper<>();
+                BackendOrder backendOrder = backendOrderMapper.selectOne(bo.eq("id", param.get("id")));
+                backendOrder.setStatus(Integer.parseInt(param.get("closeType").toString()));
+                backendOrder.setCloseType(null);
+                return Result.succ(backendOrderMapper.update(backendOrder, bo));
+            }
         }
         return Result.fail("更新错误！状态码有误");
     }

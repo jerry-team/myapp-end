@@ -74,15 +74,7 @@ public class UserController extends BaseController{
     @PostMapping("/nickname")
     public Result getNickname(@RequestBody Map<String, Object> params){
         QueryWrapper<User> userwrapper = new QueryWrapper<User>();
-        try {
-            jwtUtils.parseToken(params.get("token").toString());
-        } catch (ExpiredJwtException e) {
-            System.out.println("超时异常");
-            return Result.fail("token超时,请尝试重新登录！");
-        }catch(Exception e){
-            return Result.fail(e.toString());
-        }
-        User user = userService.getOne(userwrapper.eq("username",params.get("username")));
+        User user = (User)request.getAttribute("User");
         return Result.succ(user);
     }
 
@@ -179,33 +171,6 @@ public class UserController extends BaseController{
         }
     }
 
-//    @PostMapping("/nickname")
-//    public Result getNickname(@RequestBody Map<String, Object> params){
-//        QueryWrapper<User> userwrapper = new QueryWrapper<User>();
-//        try {
-//            jwtUtils.parseToken(params.get("token").toString());
-//        } catch (ExpiredJwtException e) {
-//            System.out.println("超时异常");
-//            return Result.fail("token超时,请尝试重新登录！");
-//        }catch(Exception e){
-//            return Result.fail(e.toString());
-//        }
-//        User user = userService.getOne(userwrapper.eq("username",params.get("username")));
-//        return Result.succ(user);
-//    }
-
-//    @PostMapping("/backendlogin")
-//    public Result login(@RequestBody Map<String, Object> params){
-//        QueryWrapper<User> userwrapper = new QueryWrapper<User>();
-//        User user = userService.getOne(userwrapper.eq("username",params.get("username")));
-//        if(user == null || !user.getPassword().equals(params.get("password")))
-//        {
-//            return Result.fail("用户名或密码错误");
-//        }
-//        UserVO userVO = new UserVO(user);
-//        userVO.setToken(jwtUtils.generateToken(user.getUsername(),user.getState()));
-//        return Result.succ(userVO);
-//    }
     @PostMapping("/login2")
     public Result login2(@RequestBody Map<String, Object> params){
         QueryWrapper<User> userwrapper = new QueryWrapper<User>();
@@ -225,7 +190,7 @@ public class UserController extends BaseController{
     public Result getRow(){
 
         return Result.succ(userMapper.getUserRow());
-}
+    }
     @PostMapping("/UserPageQuery")
     public Result getInfo(@RequestBody PageInfo req) {
         {
@@ -281,6 +246,34 @@ public class UserController extends BaseController{
         else
         return  Result.fail("修改失败");
     }
+    @PostMapping("/update2")
+    public Result applyMember(@RequestBody Map<String, Object> params){
+        User user = (User)request.getAttribute("User");
+        if(user.getState() == 1 || user.getState() == -1){
+            return Result.succ(user);
+        }
+        if((Integer)params.get("state") == 2 && user.getState() == 0){
+            user.setState(2);
+            System.out.println(user.getState());
+        }
+        UpdateWrapper<User> Wrapper = new UpdateWrapper<>();
+        Wrapper.eq("username",user.getUsername())
+                .eq("telephone",user.getTelephone());
+        if(Wrapper != null){
+            userMapper.update(user,Wrapper);
+        }
+        QueryWrapper<User> QW = new QueryWrapper<>();
+        QW.eq("username",user.getUsername())
+                .eq("telephone",user.getTelephone())
+                .eq("nickname",user.getNickname())
+                .eq("email",user.getEmail())
+                .eq("state",user.getState());
+        if (QW != null){
+            return Result.succ(user);
+        }
+        else
+            return  Result.fail("ur");
+    }
     @PostMapping("/ApplyGetRow")
     public Result getRow2(){
         List<User> user = userMapper.getUserRow2();
@@ -295,5 +288,4 @@ public class UserController extends BaseController{
         List<User> usersList = userMapper.selectPage(page, ur).getRecords();
         return Result.succ(usersList);
     }
-
 }

@@ -3,7 +3,6 @@ package com.jerry.controller;
 import com.jerry.mapper.*;
 
 
-
 import com.jerry.mapper.UserMapper;
 import com.jerry.mapper.ShopMapper;
 import com.jerry.service.*;
@@ -45,23 +44,32 @@ public class BaseController
     @Autowired
     SearchService searchService;
 
+    @Autowired
+    OrderItemService orderItemService;
 
     @Autowired
+    OrdersService orderService;
 
+    @Autowired
+    CommentService commentService;
+
+    @Autowired
     ShopMapper shopMapper;
 
-    HttpServletRequest request;
 
+
+    HttpServletRequest request;
 
     @Autowired
     JwtUtils jwtUtils;
 
     @Autowired
-
     BackendOrderMapper backendOrderMapper;
+
     @Autowired
     BackendOrderService backendOrderService;
 
+    @Autowired
     UserMapper userMapper;
 
 }
