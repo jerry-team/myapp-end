@@ -41,11 +41,19 @@ public class BaseController
     CommodityPeripheryMapper commodityPeripheryMapper;
 
     @Autowired
-
     SearchService searchService;
 
-    HttpServletRequest request;
+    @Autowired
+    OrderItemService orderItemService;
 
+    @Autowired
+    OrdersService orderService;
+
+    @Autowired
+    CommentService commentService;
+
+    @Autowired
+    HttpServletRequest request;
 
     @Autowired
     JwtUtils jwtUtils;

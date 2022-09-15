@@ -3,6 +3,7 @@ package com.jerry.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jerry.annotation.OperationLogAnnotation;
 import com.jerry.common.vo.UserVO;
 import com.jerry.entity.Commodity;
 import com.jerry.entity.Result;
@@ -37,6 +38,7 @@ public class CommodityController extends BaseController {
         return Result.succ(commodityList);
     }
 
+//    @OperationLogAnnotation(operType = "点击")
     @PostMapping("/listById")
     public Result listById(@RequestBody Map<String, Object> params){
         QueryWrapper<Commodity> qw = new QueryWrapper<Commodity>();

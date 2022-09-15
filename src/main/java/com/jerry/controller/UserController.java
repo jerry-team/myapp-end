@@ -191,6 +191,4 @@ public class UserController extends BaseController{
 //        return Result.succ(user);
 //    }
 
-
-
 }

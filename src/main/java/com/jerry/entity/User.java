@@ -15,7 +15,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
-
     private String username;
 
     private String password;
@@ -29,4 +28,6 @@ public class User extends BaseEntity {
     private String email;
 
     private Integer state;
+
+    private Double money;
 }

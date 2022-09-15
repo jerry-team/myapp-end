@@ -2,6 +2,7 @@ package com.jerry.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jerry.annotation.OperationLogAnnotation;
 import com.jerry.entity.Commodity;
 import com.jerry.entity.Result;
 import com.jerry.entity.Search;
@@ -130,6 +131,7 @@ public class SearchController extends BaseController {
             return Result.fail("删除失败，遇到未知错误！");
     }
 
+//    @OperationLogAnnotation(operType = "搜索")
     @PostMapping("/getCommodity")
     public Result getCommodity(@RequestBody Map<String, Object> params) {
         try {
