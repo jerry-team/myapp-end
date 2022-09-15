@@ -249,7 +249,10 @@ public class UserController extends BaseController{
     @PostMapping("/update2")
     public Result applyMember(@RequestBody Map<String, Object> params){
         User user = (User)request.getAttribute("User");
-        if((Integer) params.get("state") == 2){
+        if(user.getState() == 1 || user.getState() == -1){
+            return Result.succ(user);
+        }
+        if((Integer)params.get("state") == 2 && user.getState() == 0){
             user.setState(2);
             System.out.println(user.getState());
         }
