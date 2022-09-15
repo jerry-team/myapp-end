@@ -57,6 +57,8 @@ public class BackendOrderController extends BaseController{
             QueryWrapper<BackendOrder> bo = new QueryWrapper<>();
             BackendOrder backendOrder = backendOrderMapper.selectOne(bo.eq("id",param.get("id")));
             backendOrder.setStatus(-1);
+
+//            commodityMapper.selectOne()
             return Result.succ(backendOrderMapper.update(backendOrder,bo));
         }else{
             return Result.fail("订单状态错误！请刷新页面重试");
@@ -98,7 +100,6 @@ public class BackendOrderController extends BaseController{
             QueryWrapper<BackendOrder> bo = new QueryWrapper<>();
             bo
                     .like("id", search).or()
-
                     .like("user_phone", search);
 //                    .like("user_name", search).or()
 //                    .like("user_address", search);

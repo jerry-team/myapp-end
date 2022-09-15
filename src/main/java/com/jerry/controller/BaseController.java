@@ -2,12 +2,10 @@ package com.jerry.controller;
 
 import com.jerry.mapper.*;
 
-<<<<<<< HEAD
-=======
+
 
 import com.jerry.mapper.UserMapper;
 import com.jerry.mapper.ShopMapper;
->>>>>>> 66c5570d649bd7c7afec9422351363919bd2afc4
 import com.jerry.service.*;
 
 import com.jerry.utils.JwtUtils;
@@ -59,11 +57,11 @@ public class BaseController
     JwtUtils jwtUtils;
 
     @Autowired
-<<<<<<< HEAD
+
     BackendOrderMapper backendOrderMapper;
     @Autowired
     BackendOrderService backendOrderService;
-=======
+
     UserMapper userMapper;
->>>>>>> 66c5570d649bd7c7afec9422351363919bd2afc4
+
 }

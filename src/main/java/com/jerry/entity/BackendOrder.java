@@ -14,7 +14,7 @@ public class BackendOrder extends BaseEntity{
     private static final long serialVersionUID = 1L;
     private Double totalAmount;
     private Integer status;
-    private Integer close_type;
+    private Integer closeType;
     private String userName;
     private String userPhone;
     private String userAddress;
