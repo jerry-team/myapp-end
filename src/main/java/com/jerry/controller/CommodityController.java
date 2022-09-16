@@ -12,10 +12,7 @@ import com.jerry.utils.PageUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -67,8 +64,42 @@ public class CommodityController extends BaseController {
     @PostMapping("/recommend")
     public Result Recommend(@RequestBody Map<String, Object> params)
     {
-            QueryWrapper<Commodity> wrapper = new QueryWrapper<Commodity>();
-            return Result.succ(null);
+            List<Recommend> recommendList = new ArrayList<>();
+            List<Commodity> commodityList = commodityService.list();
+            for(Commodity commodity:commodityList){
+                QueryWrapper<SysOperLog> sqw1 = new QueryWrapper<>();
+                QueryWrapper<SysOperLog> sqw2 = new QueryWrapper<>();
+                QueryWrapper<SysOperLog> sqw3 = new QueryWrapper<>();
+                int clickNum,shopNum,payNum;
+                Recommend recommend = new Recommend();
+                clickNum = sysOperLogService.count(sqw1.eq("commodityId",commodity.getId())
+                        .eq("type","点击"));;
+                shopNum = sysOperLogService.count(sqw2.eq("commodityId",commodity.getId())
+                        .eq("type","加入购物车"));
+                payNum = sysOperLogService.count(sqw3.eq("commodityId",commodity.getId())
+                        .eq("type","购买"));
+                recommend.setCommodityId(commodity.getId());
+                recommend.setScore(clickNum * 0.2 + shopNum * 0.3 + payNum * 0.5);
+                recommendList.add(recommend);
+            }
+        recommendList.sort(
+                new Comparator<Recommend>() {
+                    @Override
+                    public int compare(Recommend o1, Recommend o2) {
+                        if (o1.getScore() > o2.getScore()) {
+                            return -1;
+                        } else if (o1.getScore() < o2.getScore()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+            List<Commodity> commodityList1 = new ArrayList<>();
+            for(Recommend recommend:recommendList){
+                Commodity commodity = commodityService.getById(recommend.getCommodityId());
+                commodityList1.add(commodity);
+            }
+            return Result.succ(commodityList1);
     }
 
     @CrossOrigin

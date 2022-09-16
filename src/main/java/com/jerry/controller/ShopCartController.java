@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/shop-cart")
 public class ShopCartController extends BaseController {
 
-//    @OperationLogAnnotation(operType = "加入购物车")
+    @OperationLogAnnotation(operType = "加入购物车")
     @PostMapping("/insertByCommodityId")
     public Result insert(@RequestBody Map<String, Object> params){
         User user = (User)request.getAttribute("User");

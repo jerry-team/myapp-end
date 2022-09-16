@@ -4,6 +4,7 @@ package com.jerry.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jerry.annotation.OperationLogAnnotation;
 import com.jerry.entity.*;
 import com.jerry.myapp.entity.OrderItemDTO;
 import com.jerry.myapp.entity.OrdersDTO;
@@ -62,6 +63,7 @@ public class OrdersController extends BaseController {
         return Result.succ(orderList);
     }
 
+    @OperationLogAnnotation(operType = "购买")
     @PostMapping("/addOrder")
     public Result addOrder(@RequestBody Map<String, Object> params){
         User user = (User)request.getAttribute("User");
@@ -129,7 +131,7 @@ public class OrdersController extends BaseController {
 //            orderItemService.saveBatch(orderItemList1);
             orderService.save(orders);
         }
-        return Result.succ("已下单");
+        return Result.succ(ordersList);
     }
 
     @PostMapping("/cancelOrder")

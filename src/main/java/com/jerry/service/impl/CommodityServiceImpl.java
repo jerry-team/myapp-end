@@ -2,6 +2,7 @@ package com.jerry.service.impl;
 
 import com.jerry.entity.Comment;
 import com.jerry.entity.Commodity;
+import com.jerry.entity.Recommend;
 import com.jerry.mapper.CommentMapper;
 import com.jerry.mapper.CommodityMapper;
 import com.jerry.service.CommodityService;
@@ -11,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,12 +42,14 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     }
 
     @Override
-    public List<Commodity> getRecommend(Integer userId) {
+    public List<Commodity> getRecommend() {
+//        List<Recommend> recommendList = new ArrayList<>();
             //获取商品总数量
 //            int commoditySize = commodityService.count();
 //            int userSize = userService.count();
 ////            List<Comment> commentList = commentMapper,
 //            int[][] ucScoreArray = new int[userSize][commoditySize];
+
 
         return null;
     }

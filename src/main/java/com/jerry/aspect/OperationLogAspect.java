@@ -16,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 @Aspect
@@ -65,7 +66,19 @@ public class OperationLogAspect {
                     ShopCart shopCart = (ShopCart) result.getData();
                     sysOperLog.setCommodityid(shopCart.getCommodityId());
                 }
-                else sysOperLog.setCommodityid(-1);
+                else if(annotation.operType().equals("购买") && result.getCode() == 200){
+                    List<Orders> ordersList = (List<Orders>) result.getData();
+                    for(Orders orders:ordersList){
+                        List<OrderItem> orderItemList = orders.getOrderItemList();
+                        for(OrderItem orderItem:orderItemList){
+                            SysOperLog slog = new SysOperLog();
+                            slog.setUserid(user.getId());
+                            slog.setCommodityid(orderItem.getCommodityId());
+                            slog.setType("购买");
+                            logMapper.insert(slog);
+                        }
+                    }
+                }
             }
             logMapper.insert(sysOperLog);
         } catch (Exception e) {
