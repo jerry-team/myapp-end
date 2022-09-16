@@ -68,4 +68,9 @@ public class BaseController
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    SysOperLogService sysOperLogService;
+
+    @Autowired
+    SysOperLogMapper sysOperLogMapper;
 }

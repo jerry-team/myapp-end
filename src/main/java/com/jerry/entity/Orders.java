@@ -29,6 +29,9 @@ public class Orders{
 
     private Integer shopId;
 
+    @TableField(exist = false)
+    private String shopName;
+
     private Double totalAmount;
 
     /**

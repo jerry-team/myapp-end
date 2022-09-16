@@ -12,6 +12,7 @@ import com.jerry.utils.PageUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class CommodityController extends BaseController {
         return Result.succ(commodityList);
     }
 
-//    @OperationLogAnnotation(operType = "点击")
+    @OperationLogAnnotation(operType = "点击")
     @PostMapping("/listById")
     public Result listById(@RequestBody Map<String, Object> params){
         QueryWrapper<Commodity> qw = new QueryWrapper<Commodity>();
@@ -54,13 +55,20 @@ public class CommodityController extends BaseController {
     {
 
         Page<Commodity> page = new Page<>((Integer)params.get("start"), (Integer)params.get("pageSize"));
-        if((Integer)params.get("categoryId") <= 1)
+        if((Integer)params.get("categoryId") <= 1){
             return Result.succ(commodityMapper.selectPage(page,null).getRecords());
-        else
-        {
+        }
+        else{
             QueryWrapper<Commodity> wrapper = new QueryWrapper<Commodity>();
             return Result.succ(commodityMapper.selectPage(page,wrapper.eq("category",(Integer)params.get("categoryId")-1)).getRecords());
         }
+    }
+
+    @PostMapping("/recommend")
+    public Result Recommend(@RequestBody Map<String, Object> params)
+    {
+            QueryWrapper<Commodity> wrapper = new QueryWrapper<Commodity>();
+            return Result.succ(null);
     }
 
     @CrossOrigin

@@ -43,6 +43,7 @@ public class CommentController extends BaseController {
         comment.setContent(params.get("content").toString());
         comment.setParentId((Integer) params.get("parentId"));
         comment.setUserId(user.getId());
+        System.out.println(params);
         commentService.save(comment);
         return Result.succ(comment);
     }
@@ -57,5 +58,4 @@ public class CommentController extends BaseController {
 //        System.out.println(test);
         return Result.succ(506,"test",null);
     }
-
 }

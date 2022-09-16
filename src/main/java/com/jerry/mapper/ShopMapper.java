@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface ShopMapper extends BaseMapper<Shop> {
 
-    @Select("select id,shop_name as name,shop_address,description from shop s " +
+    @Select("select id,shop_name,shop_address,description from shop s " +
             "where s.id in " +
             "(select sc.shop_id from shop_cart sct,shop_commodity sc where sct.commodity_id = sc.commodity_id)")
     List<Shop> getByShopCart();

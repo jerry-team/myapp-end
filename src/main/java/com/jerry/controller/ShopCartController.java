@@ -84,7 +84,13 @@ public class ShopCartController extends BaseController {
         for(Shop shop:shopList){
             ShopCartVO shopCartVO = new ShopCartVO(shop);
             shopCartVO.setChecked(false);
-            shopCartVO.setCommodityList(commodityService.getByShopId(shop.getId()));
+            List<Commodity> commodityList = commodityService.getByShopId(shop.getId());
+            for(Commodity commodity:commodityList){
+                QueryWrapper<ShopCart> sqw = new QueryWrapper<>();
+                ShopCart shopCart = shopCartService.getOne(sqw.eq("commodity_id",commodity.getId()));
+                commodity.setNumber(shopCart.getNum());
+            }
+            shopCartVO.setCommodityList(commodityList);
             shopCartVOList.add(shopCartVO);
         }
 

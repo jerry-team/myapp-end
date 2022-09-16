@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,17 @@ public class OrdersController extends BaseController {
         }
         for(Orders order:orderList){
             QueryWrapper<OrderItem> orderItemQueryWrapper = new QueryWrapper<>();
-            order.setOrderItemList(orderItemService.list(orderItemQueryWrapper.eq("order_id",order.getId())));
+            Shop shop = shopService.getById(order.getShopId());
+            order.setShopName(shop.getShopName());
+            List<OrderItem> orderItemList = orderItemService.list(orderItemQueryWrapper.eq("order_id",order.getId()));
+            for(OrderItem orderItem:orderItemList){
+                Commodity commodity = commodityService.getById(orderItem.getCommodityId());
+//                System.out.println(commodity);
+                orderItem.setImg(commodity.getImgurl());
+                orderItem.setName(commodity.getName());
+                orderItem.setPrice(new BigDecimal(String.valueOf(commodity.getPrice())));
+            }
+            order.setOrderItemList(orderItemList);
         }
 
         return Result.succ(orderList);
@@ -111,7 +122,7 @@ public class OrdersController extends BaseController {
             for(OrderItem orderItem:orderItemList1){
                 Commodity commodity = commodityService.getById(orderItem.getCommodityId());
                 //减库存
-                commodity.setNumber(commodity.getNumber()-1);
+                commodity.setNumber(commodity.getNumber()-orderItem.getNum());
                 commodityService.updateById(commodity);
                 orderItemService.save(orderItem);
             }
@@ -130,8 +141,13 @@ public class OrdersController extends BaseController {
         orderService.updateById(orders);
         //加库存
         QueryWrapper<OrderItem> oiqw = new QueryWrapper<>();
-//        orderItemService.list(oiqw.eq("order_id"));
-        return Result.succ("");
+        List<OrderItem> orderItemList = orderItemService.list(oiqw.eq("order_id",orders.getId()));
+        for(OrderItem orderItem:orderItemList){
+            Commodity commodity = commodityService.getById(orderItem.getCommodityId());
+            commodity.setNumber(commodity.getNumber() + orderItem.getNum());
+            commodityService.updateById(commodity);
+        }
+        return Result.succ(200,"已提交申请!",null);
     }
 
     @PostMapping("/payOrder")
@@ -148,13 +164,30 @@ public class OrdersController extends BaseController {
             orders.setStatus(1);
             orderService.updateById(orders);
         }
+
         return Result.succ(200,"支付成功",null);
     }
 
     @PostMapping("/evaluateOrder")
     public Result evaluate(@RequestBody Map<String, Object> params){
-
-        return Result.succ("");
+        User user = (User)request.getAttribute("User");
+        QueryWrapper<OrderItem> oqw = new QueryWrapper<>();
+        List<OrderItem> orderItemList = orderItemService.list(oqw.eq("order_id",(Integer)params.get("orderId")));
+        for(OrderItem orderItem:orderItemList){
+            Comment comment = new Comment();
+            comment.setContent((String)params.get("content"));
+            comment.setParentId(0);
+            comment.setUserId(user.getId());
+            Double score = (Double) params.get("score");
+            comment.setScore(score.intValue());
+            comment.setCommodityId(orderItem.getCommodityId());
+            commentService.save(comment);
+        }
+        System.out.println(params);
+        Orders orders = orderService.getById((Integer)params.get("orderId"));
+        orders.setStatus(4);
+        orderService.updateById(orders);
+        return Result.succ(200,"评价成功！",null);
     }
 
     @PostMapping("/receiveOrder")
@@ -163,5 +196,13 @@ public class OrdersController extends BaseController {
         orders.setStatus(3);
         orderService.updateById(orders);
         return Result.succ(200,"确认收货!",null);
+    }
+
+    @PostMapping("/backOrder")
+    public Result back(@RequestBody Map<String, Object> params){
+        Orders orders = orderService.getById((Integer)params.get("orderId"));
+        orders.setStatus(-2);
+        orderService.updateById(orders);
+        return Result.succ(200,"申请成功!",null);
     }
 }
