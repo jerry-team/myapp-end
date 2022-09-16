@@ -30,12 +30,19 @@ public class BackendOrderController extends BaseController{
         return Result.succ(backendOrderService.count());
     }
 
-    @PostMapping("/getChargeBack")
-    public Result getChargeBack(){
-//        Page page = new Page(req.get_currentPage(),req.getPageSize());
+    @PostMapping("/getChargeBackCount")
+    public Result getChargeBackCount(){
         QueryWrapper<BackendOrder> backendOrderQueryWrapper = new QueryWrapper<>();
         backendOrderQueryWrapper.eq("status",-2);
-        List<BackendOrder> backendOrders = backendOrderMapper.selectList(backendOrderQueryWrapper);
+        return Result.succ(backendOrderService.count(backendOrderQueryWrapper));
+    }
+
+    @PostMapping("/getChargeBack")
+    public Result getChargeBack(@RequestBody PageInfo req){
+        Page page = new Page(req.get_currentPage(),req.getPageSize());
+        QueryWrapper<BackendOrder> backendOrderQueryWrapper = new QueryWrapper<>();
+        backendOrderQueryWrapper.eq("status",-2);
+        List<BackendOrder> backendOrders = backendOrderMapper.selectPage(page,backendOrderQueryWrapper).getRecords();
         return Result.succ(backendOrders);
     }
 
