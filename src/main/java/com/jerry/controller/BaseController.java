@@ -58,6 +58,7 @@ public class BaseController
 
 
 
+    @Autowired
     HttpServletRequest request;
 
     @Autowired
