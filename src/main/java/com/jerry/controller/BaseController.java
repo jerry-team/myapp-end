@@ -7,6 +7,7 @@ import com.jerry.mapper.UserMapper;
 import com.jerry.mapper.ShopMapper;
 import com.jerry.service.*;
 
+import com.jerry.service.impl.FileService;
 import com.jerry.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,8 @@ public class BaseController
     @Autowired
     UserService userService;
 
+    @Autowired
+    FileService fileService;
     @Autowired
     CommodityService commodityService;
 

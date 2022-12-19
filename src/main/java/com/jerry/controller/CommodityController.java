@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jerry.annotation.OperationLogAnnotation;
+import com.jerry.common.vo.CommodityAddForm;
 import com.jerry.common.vo.UserVO;
 import com.jerry.entity.*;
 import com.jerry.utils.PageUtils;
@@ -26,6 +27,32 @@ import java.util.*;
 @RequestMapping("/commodity")
 public class CommodityController extends BaseController {
 
+    @PostMapping("/add")
+    public Result add(@RequestBody CommodityAddForm form){
+        QueryWrapper<Commodity> qw = new QueryWrapper<Commodity>();
+        QueryWrapper<Shop> sw = new QueryWrapper<Shop>();
+        Commodity commodity = new Commodity();
+        commodity.setName(form.getName());
+        commodity.setNumber(form.getNumber());
+        commodity.setCategory(form.getCategory());
+        commodity.setBreed(form.getBreed());
+        commodity.setDescription(form.getDescription());
+        commodity.setImgurl(form.getImgUrl());
+        commodity.setIsPedigree(form.getIsPedigree());
+        commodity.setIsPest(form.getIsPest());
+        commodity.setVaccin(form.getVaccin());
+        commodity.setPrice(form.getPrice());
+        commodity.setImgurl(form.getImgUrl());
+        commodityService.save(commodity);
+        //这里获取插入数据后的自增Id最好自己写上面的插入sql语句用keyProperty
+        Commodity commodity1 = commodityService.getOne(qw.eq("name",commodity.getName()));
+        ShopCommodity shopCommodity = new ShopCommodity();
+        shopCommodity.setCommodityId(commodity1.getId());
+        shopCommodity.setShopId(form.getShop());
+        shopCommodityService.save(shopCommodity);
+
+        return Result.succ("插入成功！");
+    }
     @PostMapping("/list")
     public Result list(){
         return Result.succ(commodityService.list());
@@ -184,7 +211,7 @@ public class CommodityController extends BaseController {
             commodity.setDescription("");
 
         commodity.setCategory(Integer.parseInt(form.get("category").toString()));
-
+        commodity.setName(form.get("name").toString());
         if(form.get("imgurl")!=null)
             commodity.setImgurl(form.get("imgurl").toString());
         else

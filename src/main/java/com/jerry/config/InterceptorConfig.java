@@ -30,7 +30,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport
 
     //解决  No mapping for GET /favicon.ico 访问静态资源图标
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
+        registry.addResourceHandler("/**")//eg:http://localhost:8001/commodityImages默认从下方两个地址后接commodityImages地址
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/META-INF/resources/");
     }
@@ -42,6 +42,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport
         ret.add("/user/login2");
         ret.add("/categoryIcon/**");
         ret.add("/commodityImages/**");
+        ret.add("/file/addFile");
 //        ret.add("/**");
 //        ret.add("/book/*");
 //        ret.add("/book/*/*");
